@@ -63,6 +63,16 @@ int main(){
 			
 		}
 		//buscar el maximo:
+		if (x>x_max){
+			x_max=x;
+			tht_max=10+10*j;
+		}
+		//cout<<tht_max<<"\n";
+	}
+	//imprimir el mensaje:
+	cout<<"el angulo con mayor alcance es "<<tht_max<<"\n";
+	return 0;
+}
 	
 
 

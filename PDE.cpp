@@ -3,7 +3,45 @@
 
 using namespace std;
 
-
+//funcion para calcular las temperaturas:
+float T_i_plus_1(float T[], int index, float factor,int opcion){
+	float T_calc;
+	if( opcion==0){
+		//nodo interno:
+		T_calc=T[index]+factor*(-4*T[index]+T[index+1]+T[index-1]+T[index+6]+T[index-6]);
+		return T_calc;
+	}
+	else if(opcion==1){
+		//nodo borde derecho:
+		T_calc=T[index]+factor*(-4*T[index]+2*T[index-1]+T[index+6]+T[index-6]);
+		return T_calc;
+	}
+	else if(opcion==2){//nodo borde superior:
+		T_calc=T[index]+factor*(-4*T[index]+2*T[index-6]+T[index+1]+T[index-1]);
+		return T_calc;
+	}
+	else if(opcion==3){//nodo borde izquierdo:
+		T_calc=T[index]+factor*(-4*T[index]+2*T[index+1]+T[index+6]+T[index-6]);
+		return T_calc;	
+	}
+	else if(opcion==4){//nodo borde inferior.
+		T_calc=T[index]+factor*(-4*T[index]+2*T[index+6]+T[index+1]+T[index-1]);
+		return T_calc;		
+	}
+	else if (opcion==5){//nodo esquina inferior derecha:
+		T_calc=T[index]+factor*(-4*T[index]+2*T[index+6]+2*T[index-1]);
+		return T_calc;
+	}
+	else if(opcion==6){//esquina inferior izquierda:
+		T_calc=T[index]+factor*(-4*T[index]+2*T[index+6]+2*T[index+1]);
+		return T_calc;
+	}
+	else if (opcion==7){//esquina superior izquierda
+		T_calc=T[index]+factor*(-4*T[index]+2*T[index+1]+2*T[index-6]);
+		return T_calc;
+	}
+	
+}
 
 int main (){
 	//los datos del problema:

@@ -109,6 +109,45 @@ int main (){
 		}
 		solution_1<<"\n";
 	}
+	//CASO #2: PAREDES ABIERTAS:
+	ofstream solution_2("solution_2.txt");
+	//primero asignamos cero a todo el dominio:
+	for(int i=0;i<36;i++){
+		T[i]=0;
+	}
+	//las paredes del clindro estan a T=100 grados:
+	T[34]=100;T[35]=100;T[29]=100;
+	for(int ts=0;ts<100000;ts++){//bucle para ejecutar los pasos de tiempo:
+		//1) los nodos internos:
+		for(int i=0;i<5;i++){//avace sobre las filas;
+			for(int j=0;j<5;j++){//avance sobre las columnas:
+				T_t_plus_dt[7+j+6*i]=T_i_plus_1(T,7+j+6*i,factor,0);
+			}
+		}
+		//los nodos de las simetrias derecha y superior:
+		for (int i=0;i<3;i++){
+			T_t_plus_dt[11+6*i]=T_i_plus_1(T,11+6*i,factor,1);
+			T_t_plus_dt[31+i]=T_i_plus_1(T,31+i,factor,2);
+		}
+		//igualar las temperaturas en las paredes abiertas a las de sus vecinos:
+		for (int i =1;i<6;i++){
+			T_t_plus_dt[i]=T_t_plus_dt[i+6];
+			T_t_plus_dt[i*6]=T_t_plus_dt[i*6+1];
+		}
+		T_t_plus_dt[0]=T_t_plus_dt[1];
+		//actualizar los datos de T
+		for(int i=0;i<35;i++){
+			T[i]=T_t_plus_dt[i];
+		}
+		//reestablecer las condiciones de frontera:
+		//las paredes del clindro estan a T=100 grados:
+		T[34]=100;T[35]=100;T[29]=100;
+		//exportar los datos de las temperaturas:
+		for(int i=0;i<36;i++){
+			solution_2<<T[i]<<",";	
+		}
+		solution_2<<"\n";
+	}
 
 
 

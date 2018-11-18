@@ -65,6 +65,50 @@ int main (){
 	x[35]=0.215;y[35]=0.215;
 	//exportar las coordenadas de los puntos generados anteriormente
 	ofstream meshgrid("meshgrid.txt");
+	for (int i=0;i<36;i++){
+		meshgrid<<x[i]<<","<<y[i]<<"\n";
+	}
+	//CASO #1: T EXTERNA CONSTANTE=10 grados
+	//primero asignamos cero a todo el dominio:
+	for(int i=0;i<36;i++){
+		T[i]=0;
+	}
+	//construccion paredes con 10 grados:
+	for (int i=0;i<6;i++){
+		T[i]=10;T[6*i]=10;
+	}
+	ofstream solution_1("solution_1.txt");
+	//las paredes del clindro estan a T=100°:
+	T[34]=100;T[35]=100;T[29]=100;
+	//Solution:
+	for(int ts=0;ts<10000;ts++){//bucle para ejecutar los pasos de tiempo:
+		//1) los nodos internos:
+		for(int i=0;i<5;i++){//avace sobre las filas;
+			for(int j=0;j<5;j++){//avance sobre las columnas:
+				T_t_plus_dt[7+j+6*i]=T_i_plus_1(T,7+j+6*i,factor,0);
+			}
+		}
+		//los nodos de las simetrias derecha y superior:
+		for (int i=0;i<3;i++){
+			T_t_plus_dt[11+6*i]=T_i_plus_1(T,11+6*i,factor,1);
+			T_t_plus_dt[31+i]=T_i_plus_1(T,31+i,factor,2);
+		}
+		//actualizar los datos de T
+		for(int i=0;i<35;i++){
+			T[i]=T_t_plus_dt[i];
+		}
+		//reestablecer las condiciones de frontera:
+		for (int i=0;i<6;i++){
+			T[i]=10;T[6*i]=10;
+		}
+		//las paredes del clindro estan a T=100°:
+		T[34]=100;T[35]=100;T[29]=100;
+		//exportar los datos de las temperaturas:
+		for(int i=0;i<36;i++){
+			solution_1<<T[i]<<",";	
+		}
+		solution_1<<"\n";
+	}
 
 
 

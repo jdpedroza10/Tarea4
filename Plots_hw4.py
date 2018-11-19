@@ -1,3 +1,6 @@
+# coding: utf-8
+
+# In[1]:
 
 import numpy 
 import matplotlib.pyplot as plt
@@ -42,4 +45,27 @@ for  i in range(3):#se hace una ejecuación por cada condicion de frontera estab
         grafica_temp.savefig('caso_'+str(i+1)+'_t='+str(int(j*pasos_de_tiempo[i]*delta_t[i]/3))+'s.pdf')
         grafica_temp.clear()
         grafica_temp.hold(True)
+	# In[23]:
+
+#finalmente las graficas de la temperatura en funcion del tiempo considerando al dominio como un sistema de parametros
+#condensados:
+plt.hold(False)
+for i in range (3):
+    T_data=numpy.loadtxt('solution_'+str(i+1)+'.txt',float,delimiter=',',usecols=range(36))
+    T_prom=numpy.zeros(pasos_de_tiempo[i])
+    #bucle para calcular la temperatura promedio en cada paso de tiempo:
+    for j in range(pasos_de_tiempo[i]):
+        T_prom[j]=sum(T_data[j,:])/36
+    tiempo=numpy.linspace(0,pasos_de_tiempo[i]*delta_t[i],pasos_de_tiempo[i])
+    plt.plot(tiempo,T_prom)
+    plt.xlabel('t(s)')
+    plt.ylabel('T(°C)')
+    plt.title('caso '+str(i+1))
+    plt.savefig('avarage_temperature_caso_'+str(i+1)+'.pdf')
+
+# In[ ]:
+
+
+
+
 

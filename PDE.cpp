@@ -1,9 +1,8 @@
 #include<iostream>
 #include<math.h>
-
+#include<fstream>
 using namespace std;
-
-//funcion para calcular las temperaturas:
+//creamos una funcion para calcular las temperaturas:
 float T_i_plus_1(float T[], int index, float factor,int opcion){
 	float T_calc;
 	if( opcion==0){
@@ -41,6 +40,9 @@ float T_i_plus_1(float T[], int index, float factor,int opcion){
 		return T_calc;
 	}
 	
+	
+	
+	
 }
 
 int main (){
@@ -68,17 +70,17 @@ int main (){
 	for (int i=0;i<36;i++){
 		meshgrid<<x[i]<<","<<y[i]<<"\n";
 	}
-	//CASO #1: T EXTERNA CONSTANTE=10 grados
+	//CASO #1: T EXTERNA CONSTANTE=10°
 	//primero asignamos cero a todo el dominio:
 	for(int i=0;i<36;i++){
 		T[i]=0;
 	}
-	//construccion paredes con 10 grados:
+	//ahora hacemos las paredes con 10°:
 	for (int i=0;i<6;i++){
 		T[i]=10;T[6*i]=10;
 	}
 	ofstream solution_1("solution_1.txt");
-	//las paredes del clindro estan a T=100Â°:
+	//las paredes del clindro estan a T=100°:
 	T[34]=100;T[35]=100;T[29]=100;
 	//Solution:
 	for(int ts=0;ts<10000;ts++){//bucle para ejecutar los pasos de tiempo:
@@ -101,7 +103,7 @@ int main (){
 		for (int i=0;i<6;i++){
 			T[i]=10;T[6*i]=10;
 		}
-		//las paredes del clindro estan a T=100Â°:
+		//las paredes del clindro estan a T=100°:
 		T[34]=100;T[35]=100;T[29]=100;
 		//exportar los datos de las temperaturas:
 		for(int i=0;i<36;i++){
@@ -115,7 +117,7 @@ int main (){
 	for(int i=0;i<36;i++){
 		T[i]=0;
 	}
-	//las paredes del clindro estan a T=100 grados:
+	//las paredes del clindro estan a T=100°:
 	T[34]=100;T[35]=100;T[29]=100;
 	for(int ts=0;ts<100000;ts++){//bucle para ejecutar los pasos de tiempo:
 		//1) los nodos internos:
@@ -140,7 +142,7 @@ int main (){
 			T[i]=T_t_plus_dt[i];
 		}
 		//reestablecer las condiciones de frontera:
-		//las paredes del clindro estan a T=100 grados:
+		//las paredes del clindro estan a T=100°:
 		T[34]=100;T[35]=100;T[29]=100;
 		//exportar los datos de las temperaturas:
 		for(int i=0;i<36;i++){
@@ -148,7 +150,7 @@ int main (){
 		}
 		solution_2<<"\n";
 	}
-	//CASO 3: FRONTERAS PERIODICAS: COMO APLICAMOS SIMETRIAS, ESTA CONDICION ES EQUIVALENTE A OTRA SIMETRIA, POR LO QUE EL DOMINIO QUEDA RODEADO DE SIMETRIAS 
+	//CASO 3: FRONTERAS PERIODICAS: COMO APLICAMOS SIMETRIAS, ESTA CONDICIÓN ES EQUIVALENTE A OTRA SIMETRIA, POR LO QUE EL DOMINIO QUEDA RODEADO DE SIMETRIAS 
 	//POR TODAS PARTES:
 	ofstream solution_3("solution_3.txt");
 	d_t=10;
@@ -157,7 +159,7 @@ int main (){
 	for(int i=0;i<36;i++){
 		T[i]=0;
 	}
-	//las paredes del clindro estan a T=100 grados:
+	//las paredes del clindro estan a T=100°:
 	T[34]=100;T[35]=100;T[29]=100;
 	for(int ts=0;ts<100000;ts++){//bucle para ejecutar los pasos de tiempo:
 		//1) los nodos internos:
@@ -176,7 +178,7 @@ int main (){
 			T_t_plus_dt[i]=T_i_plus_1(T,i,factor,4);//simetria inferior
 			T_t_plus_dt[i*6]=T_i_plus_1(T,i*6,factor,3);
 		}
-		//vertices 
+		//las esquinas:
 		T_t_plus_dt[0]=T_i_plus_1(T,0,factor,6);
 		T_t_plus_dt[5]=T_i_plus_1(T,5,factor,5);
 		T_t_plus_dt[30]=T_i_plus_1(T,30,factor,7);
@@ -184,7 +186,7 @@ int main (){
 		for(int i=0;i<35;i++){
 			T[i]=T_t_plus_dt[i];
 		}
-		//las paredes del clindro estan a T=100 grados:
+		//las paredes del clindro estan a T=100°:
 		T[34]=100;T[35]=100;T[29]=100;
 		//exportar los datos de las temperaturas:
 		for(int i=0;i<36;i++){
@@ -192,12 +194,6 @@ int main (){
 		}
 		solution_3<<"\n";
 	}
-
 	
 	return 0;
 }
-
-
-
-
-

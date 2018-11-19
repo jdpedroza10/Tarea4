@@ -18,3 +18,28 @@ for i in range(8):
     plt.savefig('trayectoria_'+titles[i]+'.pdf')
     plt.hold(False)
 
+# In[13]:
+
+#segundo apartado: graficas de la temperatura para diferentes tiempos en los tres casos estudiados:
+#cargamos las coordenadas de los puntos
+meshgrid=numpy.loadtxt('meshgrid.txt',float,delimiter=',')
+x_coor=meshgrid[:,0]
+y_coor=meshgrid[:,1]
+
+
+# In[19]:
+
+#ejecutamos un bucle para las graficas:
+delta_t=(3,3,10)
+pasos_de_tiempo=(10000,100000,100000)
+grafica_temp = plt.figure()
+for  i in range(3):#se hace una ejecuación por cada condicion de frontera establecida.
+    for  j in range(4):#dentro del bucle anterior, se hace otro, con cada paso para cada grafica solicitada
+        T_data=numpy.loadtxt('solution_'+str(i+1)+'.txt',float,delimiter=',',usecols=range(36))
+        tiempo=numpy.linspace(0,pasos_de_tiempo[i]*delta_t[i],pasos_de_tiempo[i])
+        grafica_tem_1 = grafica_temp.gca(projection='3d')
+        grafica_tem_1.plot_trisurf(x_coor, y_coor, T_data[int(j*pasos_de_tiempo[i]/3-1)], cmap=plt.cm.inferno)
+        grafica_temp.savefig('caso_'+str(i+1)+'_t='+str(int(j*pasos_de_tiempo[i]*delta_t[i]/3))+'s.pdf')
+        grafica_temp.clear()
+        grafica_temp.hold(True)
+
